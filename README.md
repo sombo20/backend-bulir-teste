@@ -48,28 +48,12 @@ A estrutura do código está organizada da seguinte forma:
 src/
 │
 ├── auth/                # Módulo de autenticação
-│   ├── auth.module.ts
-│   ├── auth.service.ts
-│   ├── auth.controller.ts
-│   └── jwt.strategy.ts
 │
 ├── users/               # Módulo de gerenciamento de usuários
-│   ├── users.module.ts
-│   ├── users.service.ts
-│   ├── users.controller.ts
-│   └── user.entity.ts
 │
 ├── services/            # Módulo de serviços oferecidos
-│   ├── services.module.ts
-│   ├── services.service.ts
-│   ├── services.controller.ts
-│   └── service.entity.ts
 │
 ├── reservations/        # Módulo de reservas de serviços
-│   ├── reservations.module.ts
-│   ├── reservations.service.ts
-│   ├── reservations.controller.ts
-│   └── reservation.entity.ts
 │
 |--- app.module.ts
 └── main.ts              
