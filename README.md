@@ -1,62 +1,75 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Plataforma de Reservas - API RESTful
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto implementa uma **API RESTful** para uma plataforma de reservas de serviços. Clientes podem reservar serviços oferecidos por prestadores de serviço. A API também inclui funcionalidades de autenticação, autorização e gerenciamento de usuários e reservas.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Funcionalidades
 
-## Description
+### Funcionalidades Básicas
+1. **Cadastro de Usuários**
+   - Usuários podem se cadastrar com nome completo, NIF (Número de Identificação Fiscal), e-mail e senha.
+   - O sistema permite dois tipos de usuários: **Cliente** e **Prestador de Serviço**.
+   - NIF e e-mail são únicos para cada usuário.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+2. **Autenticação e Autorização**
+   - A API utiliza **JWT (JSON Web Tokens)** para autenticação de usuários.
+   - Usuários devem fazer login para acessar as funcionalidades da API.
+   
+3. **Gerenciamento de Serviços**
+   - Prestadores de serviço podem cadastrar e gerenciar os serviços que oferecem.
+   - Cada serviço tem um nome, descrição, preço e prestador de serviço associado.
 
-## Project setup
+4. **Reserva de Serviços**
+   - Clientes podem realizar reservas em serviços oferecidos por prestadores.
+   - Antes de fazer uma reserva, o sistema verifica se o cliente tem saldo suficiente.
+   - O saldo do cliente é descontado após a reserva e o saldo do prestador é atualizado.
 
-```bash
-$ yarn install
-```
+### Funcionalidades Avançadas
+1. **Histórico de Reservas**
+   - O sistema mantém um histórico de todas as reservas feitas pelos clientes.
 
-## Compile and run the project
+2. **Validações**
+   - O sistema valida as permissões dos usuários antes de permitir a criação, atualização ou cancelamento de reservas.
+   - O saldo do cliente é atualizado de forma atômica para garantir consistência no banco de dados.
 
-```bash
-# development
-$ yarn run start
+## Tecnologias Usadas
 
-# watch mode
-$ yarn run start:dev
+- **Node.js**: Ambiente de execução JavaScript no lado do servidor.
+- **NestJS**: Framework progressivo para construir aplicações de servidor eficientes e escaláveis.
+- **Sequelize**: ORM para integração com banco de dados SQL.
+- **JWT (JSON Web Tokens)**: Para autenticação e autorização de usuários.
+- **Mysql**: Banco de dados utilizado para armazenar os dados da aplicação.
+- **BcryptJS**: Para criptografar as senhas dos usuários.
 
-# production mode
-$ yarn run start:prod
-```
+## Estrutura do Projeto
 
-## Run tests
+A estrutura do código está organizada da seguinte forma:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## License
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+src/
+│
+├── auth/                # Módulo de autenticação
+│   ├── auth.module.ts
+│   ├── auth.service.ts
+│   ├── auth.controller.ts
+│   └── jwt.strategy.ts
+│
+├── users/               # Módulo de gerenciamento de usuários
+│   ├── users.module.ts
+│   ├── users.service.ts
+│   ├── users.controller.ts
+│   └── user.entity.ts
+│
+├── services/            # Módulo de serviços oferecidos
+│   ├── services.module.ts
+│   ├── services.service.ts
+│   ├── services.controller.ts
+│   └── service.entity.ts
+│
+├── reservations/        # Módulo de reservas de serviços
+│   ├── reservations.module.ts
+│   ├── reservations.service.ts
+│   ├── reservations.controller.ts
+│   └── reservation.entity.ts
+│
+|--- app.module.ts
+└── main.ts              
