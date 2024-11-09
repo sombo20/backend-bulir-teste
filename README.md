@@ -87,6 +87,13 @@ cd plataforma-de-reservas
 $ yarn install
 ```
 
+```bash
+$ create .env file and copy .env.sample information
+```
+
+# documentation import postaman file 
+
+
 ## Compile and run the project
 
 ```bash
