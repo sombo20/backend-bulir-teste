@@ -64,12 +64,9 @@ src/
 ### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/plataforma-de-reservas.git
-cd plataforma-de-reservas
+git clone https://github.com/sombo20/backend-bulir-teste
+cd backend-bulir-teste
 
-```bash
-$ yarn install
-```
 
 ```bash
 $ create .env file and copy .env.sample information
