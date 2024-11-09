@@ -73,7 +73,7 @@ src/
 │
 |--- app.module.ts
 └── main.ts              
-
+```
 
 ## Configuração do Ambiente
 
