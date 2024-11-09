@@ -93,6 +93,9 @@ $ create .env file and copy .env.sample information
 
 # documentation import postaman file 
 
+```bash
+  bulir-backend.postman_collection.json
+````
 
 ## Compile and run the project
 
