@@ -38,7 +38,7 @@ Este projeto implementa uma **API RESTful** para uma plataforma de reservas de s
 - **Sequelize**: ORM para integração com banco de dados SQL.
 - **JWT (JSON Web Tokens)**: Para autenticação e autorização de usuários.
 - **Mysql**: Banco de dados utilizado para armazenar os dados da aplicação.
-- **BcryptJS**: Para criptografar as senhas dos usuários.
+- **Bcrypt**: Para criptografar as senhas dos usuários.
 
 ## Estrutura do Projeto
 
