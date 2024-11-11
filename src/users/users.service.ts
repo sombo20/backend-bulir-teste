@@ -10,12 +10,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(UserRepository)
     private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -34,11 +36,10 @@ export class UsersService {
     return this.userRepository.findByEmail(email);
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<string> {
     const existingEmail = await this.userRepository.findByEmail(
       createUserDto.email,
     );
-
     const existingNif = await this.userRepository.findByNif(createUserDto.nif);
 
     if (existingEmail && existingNif) {
@@ -59,7 +60,15 @@ export class UsersService {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = hashedPassword;
-    return this.userRepository.create(createUserDto);
+
+    const user = await this.userRepository.create(createUserDto);
+    const payload = {
+      sub: user.id,
+      role: user.role,
+      name: user.name,
+    };
+
+    return this.jwtService.sign(payload);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
