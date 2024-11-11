@@ -48,7 +48,7 @@ export class ServicesController {
     return this.servicesService.update(+id, updateServiceDto);
   }
 
-  @SetMetadata('role', ['ADMIN'])
+  @SetMetadata('role', ['ADMIN', 'PROVIDER'])
   @UseGuards(JwtAuthGuard, RoleGuard)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
