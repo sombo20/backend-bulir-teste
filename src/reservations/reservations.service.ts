@@ -23,6 +23,10 @@ export class ReservationService {
     return this.reservationRepository.findAll();
   }
 
+  async findAllPendingReservations(id: number): Promise<Reservation[]> {
+    return this.reservationRepository.findAllPendingReservations(+id);
+  }
+
   async findOne(id: number): Promise<Reservation> {
     const reservation = await this.reservationRepository.findById(id);
     if (!reservation) {

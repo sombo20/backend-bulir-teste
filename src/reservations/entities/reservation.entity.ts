@@ -4,6 +4,7 @@ import {
   Model,
   ForeignKey,
   DataType,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { User } from '../../users/entities/user.entity';
 import { Service } from 'src/services/services.model';
@@ -36,4 +37,10 @@ export class Reservation extends Model<Reservation> {
     defaultValue: 'pending',
   })
   status: 'pending' | 'confirmed' | 'cancelled';
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @BelongsTo(() => Service)
+  service: Service;
 }

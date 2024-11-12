@@ -27,6 +27,13 @@ export class ServicesController {
 
   @SetMetadata('role', ['PROVIDER'])
   @UseGuards(JwtAuthGuard, RoleGuard)
+  @Get(':id')
+  async findAllById(@Param('id') id: number) {
+    return this.servicesService.findAllById(+id);
+  }
+
+  @SetMetadata('role', ['PROVIDER'])
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   async create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);

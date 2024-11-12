@@ -26,6 +26,13 @@ export class ReservationsController {
     return this.reservationsService.findAll();
   }
 
+  @SetMetadata('role', ['PROVIDER'])
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Get(':id')
+  async findAllPendingReservations(@Param('id') id: string) {
+    return this.reservationsService.findAllPendingReservations(+id);
+  }
+
   @SetMetadata('role', ['CLIENT'])
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()

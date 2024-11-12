@@ -29,6 +29,14 @@ export class ServiceService {
     return service;
   }
 
+  async findAllById(id: number): Promise<Service[]> {
+    const services = await this.serviceRepository.findAllById(id);
+    if (!services || services.length === 0) {
+      throw new NotFoundException(`No services found with provider ID ${id}`);
+    }
+    return services;
+  }
+
   async create(createServiceDto: CreateServiceDto): Promise<Service> {
     const providerExist = await this.userRepository.findProviderById(
       createServiceDto.providerId,

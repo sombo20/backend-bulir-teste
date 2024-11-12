@@ -15,8 +15,20 @@ export class ServiceRepository {
     return this.serviceModel.findAll();
   }
 
+  async findAllById(id: number): Promise<Service[]> {
+    return this.serviceModel.findAll({
+      where: {
+        providerId: id,
+      },
+    });
+  }
+
   async findById(id: number): Promise<Service> {
     return this.serviceModel.findByPk(id);
+  }
+
+  getServiceModel(): typeof Service {
+    return this.serviceModel;
   }
 
   async create(createServiceDto: CreateServiceDto): Promise<Service> {

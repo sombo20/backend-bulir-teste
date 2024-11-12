@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import { Reservation } from 'src/reservations/entities/reservation.entity';
 
 @Table
 export class User extends Model<User> {
@@ -40,4 +41,7 @@ export class User extends Model<User> {
     allowNull: false,
   })
   role: 'CLIENT' | 'PROVIDER';
+
+  @HasMany(() => Reservation)
+  reservations: Reservation[];
 }

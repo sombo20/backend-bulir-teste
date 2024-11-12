@@ -52,6 +52,10 @@ export class UserRepository {
     return this.userModel.create(createUserDto);
   }
 
+  getUserModel(): typeof User {
+    return this.userModel;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findById(id);
     if (user) {

@@ -1,4 +1,3 @@
-// src/services/services.module.ts
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServicesController } from './services.controller';
