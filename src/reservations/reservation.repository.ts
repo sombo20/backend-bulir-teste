@@ -4,6 +4,8 @@ import { Reservation } from './entities/reservation.entity';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UserRepository } from 'src/users/user.repository';
 import { ServiceRepository } from 'src/services/services.repository';
+import { Sequelize } from 'sequelize-typescript';
+import { QueryTypes } from 'sequelize';
 
 @Injectable()
 export class ReservationRepository {
@@ -12,6 +14,7 @@ export class ReservationRepository {
     private readonly reservationModel: typeof Reservation,
     private readonly userRepository: UserRepository,
     private readonly serviceRepositoy: ServiceRepository,
+    private readonly sequelize: Sequelize,
   ) {}
 
   async findAllPendingReservations(id: number): Promise<any[]> {
@@ -39,6 +42,29 @@ export class ReservationRepository {
       serviceName: reservation.service.name,
       reservationDate: reservation.date,
     }));
+  }
+
+  async findAllTransactionsReservations(id: number): Promise<any[]> {
+    const query = `
+    SELECT
+      Reservation.id,
+      Reservation.date,
+      Reservation.status,
+      Service.name AS service_name,
+      Service.price AS service_price,
+      User.name AS provider_name
+    FROM Reservations AS Reservation
+    INNER JOIN Services AS Service ON Reservation.serviceId = Service.id
+    LEFT JOIN Users AS User ON Service.providerId = User.id
+    WHERE Reservation.clientId = :clientId;
+  `;
+
+    const results = await this.sequelize.query(query, {
+      replacements: { clientId: id },
+      type: QueryTypes.SELECT,
+    });
+
+    return results as any[];
   }
 
   async countPendingReservations(id: number): Promise<number> {

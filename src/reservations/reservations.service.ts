@@ -11,6 +11,7 @@ import { Reservation } from './entities/reservation.entity';
 import { UserRepository } from '../users/user.repository';
 import { ServiceRepository } from 'src/services/services.repository';
 import { PendingReservationsResponse } from 'src/interfaces/pendingResponse';
+import { TransactionsReservationsResponse } from 'src/interfaces/transactions';
 
 @Injectable()
 export class ReservationService {
@@ -37,6 +38,20 @@ export class ReservationService {
     return {
       accountBalance: totalBalance,
       totalPending: totalPendingReservations,
+      pendingReservations: pendingReservations,
+    };
+  }
+
+  async findAllTransactions(
+    id: number,
+  ): Promise<TransactionsReservationsResponse> {
+    const pendingReservations =
+      await this.reservationRepository.findAllTransactionsReservations(+id);
+
+    const totalBalance = await this.reservationRepository.getUserBalance(+id);
+
+    return {
+      accountBalance: totalBalance,
       pendingReservations: pendingReservations,
     };
   }

@@ -50,6 +50,12 @@ export class ReservationsController {
     return this.reservationsService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('transactions/:id')
+  async transactions(@Param('id') id: string) {
+    return this.reservationsService.findAllTransactions(+id);
+  }
+
   @SetMetadata('role', ['ADMIN'])
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':id')

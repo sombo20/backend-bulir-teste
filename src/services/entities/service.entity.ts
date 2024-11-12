@@ -4,6 +4,7 @@ import {
   Model,
   ForeignKey,
   DataType,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { User } from 'src/users/entities/user.entity';
 
@@ -32,5 +33,6 @@ export class Service extends Model<Service> {
     type: DataType.INTEGER,
     allowNull: false,
   })
+  @BelongsTo(() => User, { as: 'provider' })
   providerId: number;
 }

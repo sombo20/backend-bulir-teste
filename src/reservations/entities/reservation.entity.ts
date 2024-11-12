@@ -41,6 +41,6 @@ export class Reservation extends Model<Reservation> {
   @BelongsTo(() => User)
   user: User;
 
-  @BelongsTo(() => Service)
+  @BelongsTo(() => Service, { as: 'service' })
   service: Service;
 }
