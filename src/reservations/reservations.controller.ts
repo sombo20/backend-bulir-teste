@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { ReservationService } from './reservations.service';
 import { RoleGuard } from 'src/auth/guards/role.guard';
+import { PendingReservationsResponse } from 'src/interfaces/pendingResponse';
 
 @Controller('reservations')
 export class ReservationsController {
@@ -29,7 +30,9 @@ export class ReservationsController {
   @SetMetadata('role', ['PROVIDER'])
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Get(':id')
-  async findAllPendingReservations(@Param('id') id: string) {
+  async findAllPendingReservations(
+    @Param('id') id: string,
+  ): Promise<PendingReservationsResponse> {
     return this.reservationsService.findAllPendingReservations(+id);
   }
 

@@ -10,6 +10,7 @@ import { CreateReservationDto } from './dto/create-reservation.dto';
 import { Reservation } from './entities/reservation.entity';
 import { UserRepository } from '../users/user.repository';
 import { ServiceRepository } from 'src/services/services.repository';
+import { PendingReservationsResponse } from 'src/interfaces/pendingResponse';
 
 @Injectable()
 export class ReservationService {
@@ -23,8 +24,22 @@ export class ReservationService {
     return this.reservationRepository.findAll();
   }
 
-  async findAllPendingReservations(id: number): Promise<Reservation[]> {
-    return this.reservationRepository.findAllPendingReservations(+id);
+  async findAllPendingReservations(
+    id: number,
+  ): Promise<PendingReservationsResponse> {
+    const totalPendingReservations =
+      await this.reservationRepository.countPendingReservations(+id);
+    const pendingReservations =
+      await this.reservationRepository.findAllPendingReservations(+id);
+
+    const totalBalance =
+      await this.reservationRepository.countTotalBalance(+id);
+
+    return {
+      accountBalance: totalBalance,
+      totalPending: totalPendingReservations,
+      pendingReservations: pendingReservations,
+    };
   }
 
   async findOne(id: number): Promise<Reservation> {

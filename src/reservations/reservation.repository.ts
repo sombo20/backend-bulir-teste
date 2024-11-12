@@ -15,7 +15,7 @@ export class ReservationRepository {
   ) {}
 
   async findAllPendingReservations(id: number): Promise<any[]> {
-    return this.reservationModel.findAll({
+    const reservations = await this.reservationModel.findAll({
       where: { status: 'pending' },
       include: [
         {
@@ -27,18 +27,49 @@ export class ReservationRepository {
           model: this.serviceRepositoy.getServiceModel(),
           as: 'service',
           attributes: ['name'],
-          where: { providerId: id }, // Filtro aplicado na tabela service
+          where: { providerId: id },
         },
       ],
-      attributes: ['id', 'date', 'status'],
+      attributes: ['id', 'date'],
     });
+
+    return reservations.map((reservation) => ({
+      id: reservation.id,
+      userName: reservation.user.name,
+      serviceName: reservation.service.name,
+      reservationDate: reservation.date,
+    }));
   }
 
-  // async countPendingReservations(): Promise<number> {
-  //   return this.reservationModel.count({
-  //     where: { status: 'pending' , provi},
-  //   });
-  // }
+  async countPendingReservations(id: number): Promise<number> {
+    const totalPendingReservations = await this.reservationModel.count({
+      include: [
+        {
+          model: this.serviceRepositoy.getServiceModel(),
+          as: 'service',
+          attributes: ['name'],
+          where: { providerId: id },
+        },
+      ],
+    });
+
+    return totalPendingReservations;
+  }
+
+  async countTotalBalance(id: number): Promise<number> {
+    const totalBalance = await this.reservationModel.count({
+      include: [
+        {
+          model: this.userRepository.getUserModel(),
+          as: 'user',
+          attributes: ['balance'],
+          where: { id },
+        },
+      ],
+    });
+
+    return totalBalance;
+  }
 
   async findAll(): Promise<Reservation[]> {
     return this.reservationModel.findAll();
