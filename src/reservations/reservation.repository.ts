@@ -43,6 +43,7 @@ export class ReservationRepository {
 
   async countPendingReservations(id: number): Promise<number> {
     const totalPendingReservations = await this.reservationModel.count({
+      where: { status: 'pending' },
       include: [
         {
           model: this.serviceRepositoy.getServiceModel(),
@@ -56,19 +57,13 @@ export class ReservationRepository {
     return totalPendingReservations;
   }
 
-  async countTotalBalance(id: number): Promise<number> {
-    const totalBalance = await this.reservationModel.count({
-      include: [
-        {
-          model: this.userRepository.getUserModel(),
-          as: 'user',
-          attributes: ['balance'],
-          where: { id },
-        },
-      ],
+  async getUserBalance(id: number): Promise<number> {
+    const user = await this.userRepository.getUserModel().findOne({
+      where: { id },
+      attributes: ['balance'],
     });
 
-    return totalBalance;
+    return user ? user.balance : 0;
   }
 
   async findAll(): Promise<Reservation[]> {

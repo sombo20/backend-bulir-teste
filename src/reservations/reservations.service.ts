@@ -32,8 +32,7 @@ export class ReservationService {
     const pendingReservations =
       await this.reservationRepository.findAllPendingReservations(+id);
 
-    const totalBalance =
-      await this.reservationRepository.countTotalBalance(+id);
+    const totalBalance = await this.reservationRepository.getUserBalance(+id);
 
     return {
       accountBalance: totalBalance,
@@ -74,6 +73,10 @@ export class ReservationService {
     const client = await this.userRepository.findClientById(
       reservation.clientId,
     );
+
+    if (client.balance < service.price) {
+      throw new BadRequestException('Insufficient balance');
+    }
 
     client.balance -= service.price;
     await client.save();
